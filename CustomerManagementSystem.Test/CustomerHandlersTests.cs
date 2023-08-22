@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -286,4 +287,39 @@ public class CustomerHandlersTests
         Assert.True(result.IsSuccess);
         Assert.NotEmpty(result.Value);
     }
+
+    [Fact]
+    public async Task CreateCustomerCommandHandler_Should_ThrowValidationException_When_CustomerDataIsInvalid()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<CreateCustomerCommand>>();
+        var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+
+        var handler = new CreateCustomerCommandHandler(
+            mockLogger.Object,
+            mockHttpContextAccessor.Object,
+            mockUnitOfWork.Object,
+            mockQueryUnitOfWork.Object
+        );
+
+        var request = new CreateCustomerCommand
+        {
+            CustomerDto = new CustomerDto
+            {
+                // Provide invalid customer data, e.g., missing required properties
+                // FirstName = "", // Missing required field
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1990, 1, 15),
+                PhoneNumber = "1234567890",
+                Email = "invalid-email", // Invalid email format
+                BankAccountNumber = "1234-5678-9012-3456"
+            }
+        };
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(request, CancellationToken.None));
+    }
+
 }

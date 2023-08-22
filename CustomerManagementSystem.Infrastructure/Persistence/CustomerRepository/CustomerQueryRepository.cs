@@ -6,7 +6,7 @@ namespace CustomerManagementSystem.Infrastructure.Persistence.CustomerRepository
 {
     public class CustomerQueryRepository : AS.BaseModels.Repository.QueryRepository<Customer>, ICustomerQueryRepository
     {
-        public CustomerQueryRepository(DbContext databaseContext) : base(databaseContext)
+        public CustomerQueryRepository(DataBaseContext databaseContext) : base(databaseContext)
         {
         }
 

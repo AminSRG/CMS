@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -24,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomerManagementSystem.Application\CustomerManagementSystem.Application.csproj" />
-    <ProjectReference Include="..\CustomerManagementSystem.Domain\CustomerManagementSystem.Domain.csproj" />
     <ProjectReference Include="..\CustomerManagementSystem.Infrastructure\CustomerManagementSystem.Infrastructure.csproj" />
   </ItemGroup>
 
