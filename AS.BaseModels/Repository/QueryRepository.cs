@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AS.BaseModels.Repository
 {
-    public abstract class QueryRepository<TEntity> : object, IQueryRepository<TEntity> where TEntity : AS.BaseModels.BaseEntitys.Abstracts.BaseEntity
+    public abstract class QueryRepository<TEntity> : object, IQueryRepository<TEntity> where TEntity : AS.BaseModels.BaseEntitys.Abstracts.EntityID
     {
         protected QueryRepository
             (DbContext? databaseContext) : base()
@@ -32,7 +32,7 @@ namespace AS.BaseModels.Repository
         }
         public async Task<TEntity> GetAsync(TEntity? model)
         {
-            return await DbSet.FindAsync(model);
+            return await DbSet.FindAsync(model.ID);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace CustomerManagementSystem.Test
         public CustomerRepositoryTests()
         {
             _options = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString() + "TestConnectionString")
+                .UseInMemoryDatabase("TestConnectionString")
                 .Options;
 
             var dbContext = new DataBaseContext(_options);
@@ -129,7 +129,7 @@ namespace CustomerManagementSystem.Test
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 1),
                 PhoneNumber = "1234567890",
-                Email = "InsertForGetById.doe@example.com",
+                Email = "john.doe@example.com", // Same email as customer1
                 BankAccountNumber = "1234567890"
             };
 
@@ -138,9 +138,9 @@ namespace CustomerManagementSystem.Test
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 1),
-                PhoneNumber = "9876543210",
+                PhoneNumber = "1234567890",
                 Email = "john.doe@example.com", // Same email as customer1
-                BankAccountNumber = "9876543210"
+                BankAccountNumber = "1234567890"
             };
 
             // Act & Assert
