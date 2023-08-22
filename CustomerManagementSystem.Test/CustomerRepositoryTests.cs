@@ -16,7 +16,7 @@ namespace CustomerManagementSystem.Test
         public CustomerRepositoryTests()
         {
             _options = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseMySQL(connectionString: "TestConnectionString")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString() + "TestConnectionString")
                 .Options;
 
             var dbContext = new DataBaseContext(_options);

@@ -9,5 +9,13 @@ namespace CustomerManagementSystem.Infrastructure.Persistence.CustomerRepository
         public CustomerQueryRepository(DbContext databaseContext) : base(databaseContext)
         {
         }
+
+
+        public async Task<Customer> SearchCustomer(string firstName, string lastName, DateTime dateOfBirth)
+        {
+            return await DbSet.Where(current => current.FirstName.ToLower() == firstName.ToLower()
+            && current.LastName.ToLower() == lastName.ToLower()
+            && current.DateOfBirth == dateOfBirth).FirstAsync();
+        }
     }
 }
