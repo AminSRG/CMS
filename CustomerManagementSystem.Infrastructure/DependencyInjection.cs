@@ -14,7 +14,7 @@ namespace CustomerManagementSystem.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddDbContext<DataBaseContext>(option => option.UseInMemoryDatabase(Guid.NewGuid().ToString() + "CustomerDatabase"));
+            services.AddDbContext<DataBaseContext>(option => option.UseSqlite("CustomerDatabase"));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
