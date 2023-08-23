@@ -1,8 +1,8 @@
-﻿using Inventory.Tests.E2E.Tools;
-using Inventory.Tests.E2E.Tools.NetCoreHosting;
+﻿using CustomerManagementSystem.Test.Tools;
+using CustomerManagementSystem.Test.Tools.NetCoreHosting;
 using TechTalk.SpecFlow;
 
-namespace Inventory.Tests.E2E.Hooks
+namespace CustomerManagementSystem.Test.Hooks
 {
     [Binding]
     public sealed class RunHostHook

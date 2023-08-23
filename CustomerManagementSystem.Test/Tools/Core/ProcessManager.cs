@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Inventory.Tests.E2E.Tools.Core
+namespace CustomerManagementSystem.Test.Tools.Core
 {
     public static class ProcessManager
     {

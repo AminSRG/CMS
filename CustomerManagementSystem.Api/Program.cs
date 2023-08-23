@@ -19,7 +19,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
-    dbContext.Database.EnsureCreated();
+    dbContext.Database.EnsureDeleted();
+    var res = dbContext.Database.EnsureCreated();
+    if (!res) throw new Exception("Failed to Create DataBase!");
 }
 
 // Configure the HTTP request pipeline.

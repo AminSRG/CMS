@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using Inventory.Tests.E2E.Tools.Core;
+using CustomerManagementSystem.Test.Tools.Core;
 
-namespace Inventory.Tests.E2E.Tools.NetCoreHosting
+namespace CustomerManagementSystem.Test.Tools.NetCoreHosting
 {
     public class DotNetCoreHost : IStartableHost
     {
@@ -15,27 +15,35 @@ namespace Inventory.Tests.E2E.Tools.NetCoreHosting
         {
             _options = options;
         }
-        
+
         public void Start()
         {
-            ProcessManager.KillByPort(_options.Port);
-            var startInfo = new ProcessStartInfo("dotnet")
+            try
             {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                Arguments = $"run --project \"{_options.CsProjectPath}\"",
-            };
-            var process = Process.Start(startInfo);
+                ProcessManager.KillByPort(_options.Port);
+                var startInfo = new ProcessStartInfo("dotnet")
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    Arguments = $"run --project \"{_options.CsProjectPath}\"",
+                };
+                var process = Process.Start(startInfo);
 
-            process.ErrorDataReceived += ProcessOnErrorDataReceived;
-            process.OutputDataReceived += ProcessOnOutputDataReceived;
+                process.ErrorDataReceived += ProcessOnErrorDataReceived;
+                process.OutputDataReceived += ProcessOnOutputDataReceived;
 
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
 
-            _resetEvent.WaitOne();
+                _resetEvent.WaitOne();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         private void ProcessOnOutputDataReceived(object sender, DataReceivedEventArgs e)

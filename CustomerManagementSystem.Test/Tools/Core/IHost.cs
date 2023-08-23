@@ -1,4 +1,4 @@
-﻿namespace Inventory.Tests.E2E.Tools.Core
+﻿namespace CustomerManagementSystem.Test.Tools.Core
 {
     public interface IHost
     {

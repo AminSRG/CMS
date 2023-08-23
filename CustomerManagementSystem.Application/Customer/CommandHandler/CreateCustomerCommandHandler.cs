@@ -2,6 +2,8 @@
 using CustomerManagementSystem.Application.Customer.Dtos;
 using CustomerManagementSystem.Application.Interfaces;
 using FluentResults;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -23,7 +25,8 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
 
             try
             {
-                await request.CustomerDto.Validate();
+                var validationResult = await request.CustomerDto.Validate();
+                if (!validationResult.IsValid) return result.AddValidationErrors<bool>(validationResult);
                 var customer = MapHelper.DynamicMap<CustomerDto, Domain.Entitys.Customer>(request.CustomerDto);
 
                 var res = await _unitOfWork.CustomerRepository.InsertAsync(customer);
@@ -38,8 +41,10 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
                 result.WithError(ex.Message);
             }
 
-            return result; // Return the newly created customer's ID
+            return result;
         }
+
+
     }
 
 }

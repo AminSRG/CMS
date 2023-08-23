@@ -1,4 +1,4 @@
-﻿namespace Inventory.Tests.E2E.Tools.NetCoreHosting
+﻿namespace CustomerManagementSystem.Test.Tools.NetCoreHosting
 {
     public class DotNetCoreHostOptions
     {

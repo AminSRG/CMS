@@ -1,4 +1,4 @@
-﻿namespace Inventory.Tests.E2E.Tools
+﻿namespace CustomerManagementSystem.Test.Tools
 {
     public static class HostConstants
     {
@@ -6,6 +6,6 @@
         public static readonly string Endpoint = $"https://localhost:{Port}";
 
         public const string CsProjectPath =
-            @"C:\Users\m.sohrabi\Desktop\CustomerManagementSystem-Folder\CustomerManagementSystem\CustomerManagementSystem.Api\CustomerManagementSystem.Api.csproj";
+            @"C:\Users\amins\source\repos\CMS\CustomerManagementSystem.Api\CustomerManagementSystem.Api.csproj";
     }
 }

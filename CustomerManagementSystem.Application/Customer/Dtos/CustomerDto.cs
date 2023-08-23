@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation.Results;
 
 namespace CustomerManagementSystem.Application.Customer.Dtos
 {
@@ -17,12 +17,10 @@ namespace CustomerManagementSystem.Application.Customer.Dtos
         public string Email { get; set; }
         public string BankAccountNumber { get; set; }
 
-        public async Task Validate()
+        public async Task<ValidationResult> Validate()
         {
             var validator = new CustomerDtoValidator();
-            var validationResult = await validator.ValidateAsync(this);
-
-            if (!validationResult.IsValid) throw new FluentValidation.ValidationException(validationResult.Errors);
+            return await validator.ValidateAsync(this);
         }
     }
 }
