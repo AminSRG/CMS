@@ -32,6 +32,7 @@ namespace CustomerManagementSystem.Application.Customer.QueryHandler
                 }
 
                 var customerDto = MapHelper.DynamicMap<Domain.Entitys.Customer, CustomerDto>(customer);
+                await customerDto.Validate();
 
                 result.WithSuccess("Customer retrieved successfully.");
                 result.WithValue(customerDto);

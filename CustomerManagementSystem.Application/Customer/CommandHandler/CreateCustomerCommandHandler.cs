@@ -23,6 +23,7 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
 
             try
             {
+                await request.CustomerDto.Validate();
                 var customer = MapHelper.DynamicMap<CustomerDto, Domain.Entitys.Customer>(request.CustomerDto);
 
                 var res = await _unitOfWork.CustomerRepository.InsertAsync(customer);

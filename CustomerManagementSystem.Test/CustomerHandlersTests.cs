@@ -47,7 +47,7 @@ namespace CustomerManagementSystem.Test
                     FirstName = "John",
                     LastName = "Doe",
                     DateOfBirth = new DateTime(1990, 1, 15),
-                    PhoneNumber = "1234567890",
+                    PhoneNumber = "+989123456789",
                     Email = "john.doe@example.com",
                     BankAccountNumber = "1234-5678-9012-3456"
                 }
@@ -87,7 +87,7 @@ namespace CustomerManagementSystem.Test
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 15),
-                PhoneNumber = "1234567890",
+                PhoneNumber = "+989123456789",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234-5678-9012-3456"
             };
@@ -104,7 +104,7 @@ namespace CustomerManagementSystem.Test
                     FirstName = "UpdatedFirstName",
                     LastName = "UpdatedLastName",
                     DateOfBirth = new DateTime(1985, 5, 20),
-                    PhoneNumber = "9876543210",
+                    PhoneNumber = "+989123456789",
                     Email = "updated.email@example.com",
                     BankAccountNumber = "5678-1234-9012-3456"
                 }
@@ -152,7 +152,7 @@ namespace CustomerManagementSystem.Test
                 FirstName = "ToDelete",
                 LastName = "Customer",
                 DateOfBirth = new DateTime(1980, 3, 10),
-                PhoneNumber = "9876543210",
+                PhoneNumber = "+989123456789",
                 Email = "delete.customer@example.com",
                 BankAccountNumber = "9999-8888-7777-6666"
             };
@@ -176,6 +176,9 @@ namespace CustomerManagementSystem.Test
                     FirstName = "ToDelete",
                     LastName = "Customer",
                     DateOfBirth = new DateTime(1980, 3, 10),
+                    PhoneNumber = "+989123456789",
+                    Email = "delete.customer@example.com",
+                    BankAccountNumber = "9999-8888-7777-6666"
                 }
             };
 
@@ -210,7 +213,7 @@ namespace CustomerManagementSystem.Test
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 15),
-                PhoneNumber = "1234567890",
+                PhoneNumber = "+989123456789",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234-5678-9012-3456",
                 ID = "1" // Assuming "1" is the ID of the customer to retrieve
@@ -314,14 +317,18 @@ namespace CustomerManagementSystem.Test
                     // FirstName = "", // Missing required field
                     LastName = "Doe",
                     DateOfBirth = new DateTime(1990, 1, 15),
-                    PhoneNumber = "1234567890",
+                    PhoneNumber = "+989123456789",
                     Email = "invalid-email", // Invalid email format
                     BankAccountNumber = "1234-5678-9012-3456"
                 }
             };
 
-            // Act & Assert
-            await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(request, CancellationToken.None));
+            // Act 
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsFailed);
+            Assert.NotNull(result.Errors);
         }
 
     }

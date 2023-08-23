@@ -22,6 +22,7 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
 
             try
             {
+                await request.CustomerDto.Validate();
                 var existingCustomer = await _queryUnitOfWork.CustomerQueryRepository.SearchCustomer(firstName: request.CustomerDto.FirstName,
                                                                                                      lastName: request.CustomerDto.LastName,
                                                                                                      dateOfBirth: request.CustomerDto.DateOfBirth);

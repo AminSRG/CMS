@@ -3,6 +3,7 @@ using CustomerManagementSystem.Domain.Entitys;
 using CustomerManagementSystem.Infrastructure.Persistence;
 using CustomerManagementSystem.Infrastructure.Persistence.CustomerRepository;
 using CustomerManagementSystem.Infrastructure.Persistence.UnitOfWork;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -15,9 +16,20 @@ namespace CustomerManagementSystem.Test
 
         public CustomerRepositoryTests()
         {
+            // Create an in-memory SQLite database connection
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
             _options = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase("TestConnectionString")
+                .UseSqlite(connection)
                 .Options;
+
+            // Ensure the database is created
+            using (var _dbContext = new DataBaseContext(_options))
+            {
+                var isDeleted = _dbContext.Database.EnsureDeleted();
+                var isCreated = _dbContext.Database.EnsureCreated();
+            }
 
             var dbContext = new DataBaseContext(_options);
             _unitOfWork = new UnitOfWork(new CustomerRepository(dbContext));
@@ -25,10 +37,8 @@ namespace CustomerManagementSystem.Test
 
         public void Dispose()
         {
-            using (var context = new DataBaseContext(_options))
-            {
-                context.Database.EnsureDeleted();
-            }
+            using var context = new DataBaseContext(_options);
+            var res = context.Database.EnsureDeleted();
         }
 
         [Fact]
@@ -139,7 +149,7 @@ namespace CustomerManagementSystem.Test
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 1),
                 PhoneNumber = "1234567890",
-                Email = "john.doe@example.com", // Same email as customer1
+                Email = "john.doe@example.com", // Same email as customer2
                 BankAccountNumber = "1234567890"
             };
 
@@ -148,7 +158,7 @@ namespace CustomerManagementSystem.Test
 
             // Attempt to add a second customer with the same details
             // This should fail due to the uniqueness constraint
-            await Assert.ThrowsAsync<DbUpdateException>(async () =>
+            await Assert.ThrowsAsync<Exception>(async () =>
             {
                 await _unitOfWork.CustomerRepository.InsertAsync(customer2);
             });
