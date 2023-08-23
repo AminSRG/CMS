@@ -56,7 +56,7 @@ namespace AS.BaseModels.Repository
                 if (entity == null) throw new ArgumentNullException(nameof(entity));
 
                 await RemoveById(entity.ID);
-                DbSet.Update(entity);
+                await DbSet.AddAsync(entity);
                 await SaveAsync();
 
                 return true;

@@ -20,36 +20,26 @@ namespace CustomerManagementSystem.Api.Controllers
 
         [HttpPost("CreateCustomer")]
         [ProducesResponseType(typeof(Result<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         public async Task<ActionResult<Result<bool>>> CreateCustomer(CreateCustomerCommand param)
         {
-            Result<bool> result = await _mediator.Send(param);
+            var result = await _mediator.Send(param);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            if (result.IsSuccess)return Ok(result);
+            else return BadRequest(result.ToResult());
         }
 
         [HttpPut("UpdateCustomer")]
         [ProducesResponseType(typeof(Result<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         public async Task<ActionResult<Result<bool>>> UpdateCustomer(UpdateCustomerCommand param)
         {
             Result<bool> result = await _mediator.Send(param);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            if (result.IsSuccess) return Ok(result);
+            else return BadRequest(result.ToResult());
         }
 
         [HttpDelete("DeleteCustomer")]
@@ -59,48 +49,33 @@ namespace CustomerManagementSystem.Api.Controllers
         {
             Result<bool> result = await _mediator.Send(param);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            if (result.IsSuccess) return Ok(result);
+            else return BadRequest(result.ToResult());
         }
 
         [HttpGet("GetCustomerById")]
         [ProducesResponseType(typeof(Result<CustomerDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         public async Task<ActionResult<Result<CustomerDto>>> GetCustomerById(GetCustomerByIdQuery param)
         {
             Result<CustomerDto> result = await _mediator.Send(param);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            if (result.IsSuccess) return Ok(result);
+            else return BadRequest(result.ToResult());
         }
 
         [HttpGet("GetAllCustomers")]
-        [ProducesResponseType(typeof(Result<List<CustomerDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<CustomerDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         public async Task<ActionResult<Result<List<CustomerDto>>>> GetAllCustomers()
         {
             Result<List<CustomerDto>> result = await _mediator.Send(new GetAllCustomersQuery());
 
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            if (result.IsSuccess) return Ok(result);
+            else return BadRequest(result.ToResult());
         }
     }
 }
+

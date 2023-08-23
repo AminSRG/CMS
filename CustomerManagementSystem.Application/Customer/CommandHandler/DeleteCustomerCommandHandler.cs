@@ -42,6 +42,7 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
             {
                 _logger.LogError(ex, "Error occurred while deleting a customer.");
                 result.WithError(ex.Message);
+                result.WithValue(false);
             }
 
             return result;

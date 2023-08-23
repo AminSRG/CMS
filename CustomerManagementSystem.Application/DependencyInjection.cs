@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using CustomerManagementSystem.Application.Customer.CommandHandler;
+using CustomerManagementSystem.Application.Customer.QueryHandler;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.NetworkInformation;
@@ -11,7 +13,9 @@ namespace CustomerManagementSystem.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>
-                 cfg.RegisterServicesFromAssembly(typeof(Ping).Assembly));
+                 cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommandHandler).Assembly));
+            services.AddMediatR(cfg =>
+                 cfg.RegisterServicesFromAssembly(typeof(GetAllCustomersQueryHandler).Assembly));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<IHttpContextAccessor,HttpContextAccessor>();
 
