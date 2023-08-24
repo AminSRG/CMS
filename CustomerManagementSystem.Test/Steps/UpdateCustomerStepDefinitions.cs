@@ -38,6 +38,10 @@ namespace CustomerManagementSystem.Test.Steps
             // Send a POST request to create the customer
             var createResponse = await _httpClient.PostAsync("/api/customer/CreateCustomer", jsonContent);
             createResponse.EnsureSuccessStatusCode(); // Ensure the creation was successful
+
+            var result = await createResponse.Content.ReadAsAsync<FluentResultVM<string>>();
+            _scenarioContext.Set(result.value, "CreatedCustomerID");
+
         }
 
         [When("I update the customer's email to \"(.*)\"")]
@@ -45,18 +49,24 @@ namespace CustomerManagementSystem.Test.Steps
         {
             // Retrieve the valid customer from ScenarioContext
             var validCustomer = _scenarioContext.Get<CreateCustomerCommand>("ValidCustomer");
+            var createdCustomerID = _scenarioContext.Get<string>("CreatedCustomerID");
 
-            // Update the first name
-            validCustomer.CustomerDto.Email = updatedEmail;
+            // Update the Email
+            var updateCustomer = new UpdateCustomerCommand()
+            {
+                CustomerId = createdCustomerID,
+                CustomerDto = validCustomer.CustomerDto
+            };
+            updateCustomer.CustomerDto.Email = updatedEmail;
 
-            _scenarioContext.Set(validCustomer, "UpdatedCustomer");
+            _scenarioContext.Set(updateCustomer, "UpdatedCustomer");
         }
 
         [When("I send a request to update the customer")]
         public async Task WhenISendARequestToUpdateTheCustomer()
         {
             // Retrieve the updated customer from ScenarioContext
-            var updatedCustomer = _scenarioContext.Get<CreateCustomerCommand>("UpdatedCustomer");
+            var updatedCustomer = _scenarioContext.Get<UpdateCustomerCommand>("UpdatedCustomer");
 
             // Serialize the updated customer object to JSON
             var jsonContent = new StringContent(JsonSerializer.Serialize(updatedCustomer), Encoding.UTF8, "application/json");

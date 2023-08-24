@@ -110,7 +110,7 @@ namespace CustomerManagementSystem.Test.Steps
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             // Optionally, you can further validate the response content if needed.
-            var result = await response.Content.ReadAsAsync<FluentResultVM<bool>>();
+            var result = await response.Content.ReadAsAsync<FluentResultVM<string>>();
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
         }

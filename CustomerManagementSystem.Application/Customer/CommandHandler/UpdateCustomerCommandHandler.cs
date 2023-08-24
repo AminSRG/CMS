@@ -27,9 +27,7 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
                 
                 if (!validationResult.IsValid) return result.AddValidationErrors<bool>(validationResult);
                 
-                var existingCustomer = await _queryUnitOfWork.CustomerQueryRepository.SearchCustomer(firstName: request.CustomerDto.FirstName,
-                                                                                                     lastName: request.CustomerDto.LastName,
-                                                                                                     dateOfBirth: request.CustomerDto.DateOfBirth);
+                var existingCustomer = await _queryUnitOfWork.CustomerQueryRepository.GetByIdAsync(request.CustomerId);
 
                 if (existingCustomer == null)
                 {

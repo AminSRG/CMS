@@ -57,7 +57,7 @@ namespace CustomerManagementSystem.Api.Controllers
         [ProducesResponseType(typeof(Result<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
-        public async Task<ActionResult<Result<CustomerDto>>> GetCustomerById(GetCustomerByIdQuery param)
+        public async Task<ActionResult<Result<CustomerDto>>> GetCustomerById([FromBody] GetCustomerByIdQuery param)
         {
             Result<CustomerDto> result = await _mediator.Send(param);
 

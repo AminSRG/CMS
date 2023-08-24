@@ -61,7 +61,7 @@ namespace CustomerManagementSystem.Test
 
             // Assert
             Assert.True(result.IsSuccess);
-            Assert.True(result.Value);
+            Assert.NotNull(result.Value);
         }
 
         // UpdateCustomerCommandHandler Test
@@ -84,6 +84,7 @@ namespace CustomerManagementSystem.Test
             // Create a new customer to insert
             var newCustomer = new Domain.Entitys.Customer
             {
+                ID = "1",
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = new DateTime(1990, 1, 15),
@@ -98,6 +99,7 @@ namespace CustomerManagementSystem.Test
             // The request to update the customer
             var request = new UpdateCustomerCommand
             {
+                CustomerId = newCustomer.ID,
                 CustomerDto = new CustomerDto
                 {
                     // Provide updated customer properties
@@ -111,11 +113,7 @@ namespace CustomerManagementSystem.Test
             };
 
             // Mock the query repository's SearchCustomer method to return the inserted customer
-            mockQueryUnitOfWork.Setup(q => q.CustomerQueryRepository.SearchCustomer(
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<DateTime>()
-            )).ReturnsAsync(newCustomer);
+            mockQueryUnitOfWork.Setup(q => q.CustomerQueryRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(newCustomer);
 
             // Mock the customer repository's UpdateAsync method to return true
             mockUnitOfWork.Setup(u => u.CustomerRepository.UpdateAsync(It.IsAny<Domain.Entitys.Customer>()))
@@ -149,6 +147,7 @@ namespace CustomerManagementSystem.Test
             // Create a new customer to delete
             var customerToDelete = new Domain.Entitys.Customer
             {
+                ID = "1",
                 FirstName = "ToDelete",
                 LastName = "Customer",
                 DateOfBirth = new DateTime(1980, 3, 10),
@@ -158,11 +157,7 @@ namespace CustomerManagementSystem.Test
             };
 
             // Mock the query repository's SearchCustomer method to return the customer to delete
-            mockQueryUnitOfWork.Setup(q => q.CustomerQueryRepository.SearchCustomer(
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<DateTime>()
-            )).ReturnsAsync(customerToDelete);
+            mockQueryUnitOfWork.Setup(q => q.CustomerQueryRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(customerToDelete);
 
             // Mock the customer repository's DeleteAsync method to return true
             mockUnitOfWork.Setup(u => u.CustomerRepository.DeleteAsync(It.IsAny<Domain.Entitys.Customer>()))
@@ -171,15 +166,7 @@ namespace CustomerManagementSystem.Test
             // The request to delete the customer
             var request = new DeleteCustomerCommand
             {
-                CustomerDto = new CustomerDto
-                {
-                    FirstName = "ToDelete",
-                    LastName = "Customer",
-                    DateOfBirth = new DateTime(1980, 3, 10),
-                    PhoneNumber = "+989123456789",
-                    Email = "delete.customer@example.com",
-                    BankAccountNumber = "9999-8888-7777-6666"
-                }
+                CustomerId = "1"
             };
 
             // Act

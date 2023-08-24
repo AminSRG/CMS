@@ -55,19 +55,21 @@ namespace CustomerManagementSystem.Test.Steps
             var createResponse = await _httpClient.PostAsync("/api/customer/CreateCustomer", jsonContent);
             createResponse.EnsureSuccessStatusCode(); // Ensure the creation was successful
 
-            _scenarioContext.Set(existingCustomer, "ExistingCustomer");
+            var result = await createResponse.Content.ReadAsAsync<FluentResultVM<string>>();
+            _scenarioContext.Set(existingCustomer.CustomerDto, "CreatedCustomer");
+            _scenarioContext.Set(result.value, "CreatedCustomerID");
         }
 
         [When("I send a request to delete the customer")]
         public async Task WhenISendARequestToDeleteTheCustomer()
         {
             // Retrieve the existing customer from ScenarioContext
-            var existingCustomer = _scenarioContext.Get<CreateCustomerCommand>("ExistingCustomer");
+            var createdCustomerID = _scenarioContext.Get<string>("CreatedCustomerID");
 
             // Create a delete request using the customer's data (assuming your API accepts a delete request with customer data)
             var deleteRequestCommand = new DeleteCustomerCommand
             {
-                CustomerDto = existingCustomer.CustomerDto
+                CustomerId = createdCustomerID
             };
 
             // Serialize the delete request object to JSON

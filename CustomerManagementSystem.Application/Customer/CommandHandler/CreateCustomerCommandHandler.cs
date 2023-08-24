@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CustomerManagementSystem.Application.Customer.CommandHandler
 {
-    public class CreateCustomerCommandHandler : BaseHandler<CreateCustomerCommand>, IRequestHandler<CreateCustomerCommand, Result<bool>>
+    public class CreateCustomerCommandHandler : BaseHandler<CreateCustomerCommand>, IRequestHandler<CreateCustomerCommand, Result<string>>
     {
         public CreateCustomerCommandHandler(ILogger<CreateCustomerCommand> logger,
                                             IHttpContextAccessor context,
@@ -19,21 +19,23 @@ namespace CustomerManagementSystem.Application.Customer.CommandHandler
         {
         }
 
-        public async Task<Result<bool>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var result = new Result<bool>();
+            var result = new Result<string>();
 
             try
             {
                 var validationResult = await request.CustomerDto.Validate();
-                if (!validationResult.IsValid) return result.AddValidationErrors<bool>(validationResult);
+                
+                if (!validationResult.IsValid) return result.AddValidationErrors<string>(validationResult);
+
                 var customer = MapHelper.DynamicMap<CustomerDto, Domain.Entitys.Customer>(request.CustomerDto);
 
                 var res = await _unitOfWork.CustomerRepository.InsertAsync(customer);
                 if (!res) throw new Exception("Operation Failed!");
 
                 result.WithSuccess("Done!");
-                result.WithValue(true);
+                result.WithValue(customer.ID);
             }
             catch (Exception ex)
             {

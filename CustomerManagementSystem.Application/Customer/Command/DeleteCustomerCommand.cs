@@ -6,7 +6,7 @@ namespace CustomerManagementSystem.Application.Customer.Command
 {
     public class DeleteCustomerCommand : IRequest<Result<bool>>
     {
-        public CustomerDto CustomerDto { get; set; }
+        public string CustomerId { get; set; }
     }
 
 }
