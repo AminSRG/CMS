@@ -31,12 +31,16 @@ namespace CustomerManagementSystem.Test
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+            var mockEventBroker = new Mock<IEventBroker>();
+            var mockEvenStore = new Mock<IEventStore>();
 
             var handler = new CreateCustomerCommandHandler(
                 mockLogger.Object,
                 mockHttpContextAccessor.Object,
                 mockUnitOfWork.Object,
-                mockQueryUnitOfWork.Object
+                mockQueryUnitOfWork.Object,
+                mockEventBroker.Object,
+                mockEvenStore.Object
             );
 
             var request = new CreateCustomerCommand
@@ -73,12 +77,16 @@ namespace CustomerManagementSystem.Test
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+            var mockEventBroker = new Mock<IEventBroker>();
+            var mockEvenStore = new Mock<IEventStore>();
 
             var handler = new UpdateCustomerCommandHandler(
                 mockLogger.Object,
                 mockHttpContextAccessor.Object,
                 mockUnitOfWork.Object,
-                mockQueryUnitOfWork.Object
+                mockQueryUnitOfWork.Object,
+                mockEventBroker.Object,
+                mockEvenStore.Object
             );
 
             // Create a new customer to insert
@@ -136,13 +144,15 @@ namespace CustomerManagementSystem.Test
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+            var mockEventBroker = new Mock<IEventBroker>();
+            var mockEvenStore = new Mock<IEventStore>();
 
-            var handler = new DeleteCustomerCommandHandler(
-                mockLogger.Object,
-                mockHttpContextAccessor.Object,
-                mockUnitOfWork.Object,
-                mockQueryUnitOfWork.Object
-            );
+            var handler = new DeleteCustomerCommandHandler(mockLogger.Object,
+                                                           mockHttpContextAccessor.Object,
+                                                           mockUnitOfWork.Object,
+                                                           mockQueryUnitOfWork.Object,
+                                                           mockEventBroker.Object,
+                                                           mockEvenStore.Object);
 
             // Create a new customer to delete
             var customerToDelete = new Domain.Entitys.Customer
@@ -234,6 +244,8 @@ namespace CustomerManagementSystem.Test
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+            var mockEventBroker = new Mock<IEventBroker>();
+            var mockEvenStore = new Mock<IEventStore>();
 
             var handler = new GetAllCustomersQueryHandler(
                 mockLogger.Object,
@@ -288,13 +300,15 @@ namespace CustomerManagementSystem.Test
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockQueryUnitOfWork = new Mock<IQueryUnitOfWork>();
+            var mockEventBroker = new Mock<IEventBroker>();
+            var mockEvenStore = new Mock<IEventStore>();
 
-            var handler = new CreateCustomerCommandHandler(
-                mockLogger.Object,
-                mockHttpContextAccessor.Object,
-                mockUnitOfWork.Object,
-                mockQueryUnitOfWork.Object
-            );
+            var handler = new CreateCustomerCommandHandler(mockLogger.Object,
+                                                           mockHttpContextAccessor.Object,
+                                                           mockUnitOfWork.Object,
+                                                           mockQueryUnitOfWork.Object,
+                                                           mockEventBroker.Object,
+                                                           mockEvenStore.Object);
 
             var request = new CreateCustomerCommand
             {

@@ -2,6 +2,7 @@
 using CustomerManagementSystem.Application.Interfaces;
 using CustomerManagementSystem.Infrastructure.Persistence;
 using CustomerManagementSystem.Infrastructure.Persistence.CustomerRepository;
+using CustomerManagementSystem.Infrastructure.Persistence.Event;
 using CustomerManagementSystem.Infrastructure.Persistence.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,11 @@ namespace CustomerManagementSystem.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IQueryUnitOfWork, QueryUnitOfWork>();
+
+
+            services.AddScoped<IEventBroker, InMemoryEventBroker>();
+            services.AddScoped<IEventStore, InMemoryEventStore>();
+
 
             return services;
         }

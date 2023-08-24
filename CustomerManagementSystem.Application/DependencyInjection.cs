@@ -1,8 +1,10 @@
 ﻿using CustomerManagementSystem.Application.Customer.CommandHandler;
 using CustomerManagementSystem.Application.Customer.QueryHandler;
+using CustomerManagementSystem.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.Design;
 using System.Net.NetworkInformation;
 using System.Reflection;
 

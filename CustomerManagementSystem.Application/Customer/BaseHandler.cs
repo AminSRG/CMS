@@ -21,4 +21,21 @@ namespace CustomerManagementSystem.Application.Customer
             _queryUnitOfWork = queryUnitOfWork;
         }
     }
+
+    public class BaseCommandHandler<T> : BaseHandler<T> where T : class
+    {
+        public readonly IEventBroker _eventBroker;
+        public readonly IEventStore  _eventStore;
+
+        public BaseCommandHandler(ILogger<T> logger,
+                                  IHttpContextAccessor context,
+                                  IUnitOfWork unitOfWork,
+                                  IQueryUnitOfWork queryUnitOfWork,
+                                  IEventBroker eventBroker,
+                                  IEventStore eventStore) : base(logger, context, unitOfWork, queryUnitOfWork)
+        {
+            _eventBroker = eventBroker;
+            _eventStore = eventStore;
+        }
+    }
 }
